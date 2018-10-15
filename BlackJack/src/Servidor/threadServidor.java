@@ -5,14 +5,20 @@
  */
 package Servidor;
 
+import datos.Baraja;
+import datos.Carta;
 import java.io.*;
 import java.net.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author SSDesth
  */
-public class threadServidor {
+public class threadServidor extends Thread {
+
+    private Baraja miBaraja;
 
     private Socket cliente = null;//referencia a socket de comunicacion de cliente 1
     private Socket cliente2 = null;//referencia a socket de comunicacion de cliente 2
@@ -207,8 +213,8 @@ public class threadServidor {
      */
     public void asignacionCliente3(Socket eCliente3) throws IOException {
         this.cliente3 = eCliente3;
-        this.salida2 = new DataOutputStream(cliente3.getOutputStream());//comunic
-        this.entrada2 = new DataInputStream(cliente3.getInputStream());//comunic
+        this.salida3 = new DataOutputStream(cliente3.getOutputStream());//comunic
+        this.entrada3 = new DataInputStream(cliente3.getInputStream());//comunic
     }
 
     /**
@@ -218,21 +224,154 @@ public class threadServidor {
      * encargara de ejecutar el debido procedimiento
      *
      */
+    @Override
     public void run() {
+
+        //Se crea la bara con la que se jugara
+        miBaraja = new Baraja();
+
+        //se envian las primeras 2 cartas a todos los jugadores
+        EnviarCartasJugadoresInicio();
+        EnviarCartasJugadoresInicio();
+
         //Con esta variable se definira que susedera dentra del run del hilo
         int seleccion = 0;
+        boolean ganador = false;
+        
         /*while eterno encargado de siempre estar pendiente de lo que algun 
         cliente va a decir */
         while (ejecucionHilo) {
-            try{
-                seleccion=entrada.readInt();//Respuesta del cliente
-            
-            
-            }catch(IOException ex) {
+            try {
+
+                salida.writeInt(4);
+                seleccion = entrada.read();//Respuesta del cliente 1
+                Ejecucion(1, seleccion, salida);
+                
+                salida2.writeInt(4);
+                seleccion = entrada2.read();//Respuesta del cliente 1
+                Ejecucion(2, seleccion, salida2);
+                
+                salida3.writeInt(4);
+                seleccion = entrada3.read();//Respuesta del cliente 1
+                Ejecucion(3, seleccion, salida3);
+                
+            } catch (IOException ex) {
                 System.out.println("Error con la informacion que se recibio");
             }
         }
 
     }
 
+    public void Ejecucion(int Jugador,int seleccion, DataOutputStream salidaCliente) {
+        switch (seleccion) {
+            case 2://Pedir una carta
+                EnviarCarta(Jugador);
+                break;
+            
+        }
+
+    }
+    /**
+     * envia una carta a todos los usuarios
+     */
+    public void EnviarCartasJugadoresInicio() {
+
+        Carta temp;
+        //consigo la carta a enviar
+        temp = miBaraja.popCarta();
+        //se envia al jugador 1
+        EnviarCartaJugador1(temp);
+        //consigo la carta a enviar
+        temp = miBaraja.popCarta();
+        //se envia al jugador 2
+        EnviarCartaJugador2(temp);
+        //consigo la carta a enviar
+        temp = miBaraja.popCarta();
+        //se envia al jugador 3
+        EnviarCartaJugador3(temp);
+
+    }
+
+    /**
+     * envia una carta al Jugador 1
+     *
+     * @param entrada:Carta
+     */
+    public void EnviarCartaJugador1(Carta entrada) {
+        try {
+            //le avisa al cliente 1 que le va a enviar una carta
+            salida.writeInt(3);
+            //envia el id de la carta
+            salida.writeUTF(entrada.getID());
+            //envia el valor de la carta
+            salida.write(entrada.getValor());
+
+        } catch (IOException ex) {
+            Logger.getLogger(threadServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    /**
+     * envia una carta al Jugador 2
+     *
+     * @param entrada:Carta
+     */
+    public void EnviarCartaJugador2(Carta entrada) {
+        try {
+            //le avisa al cliente 1 que le va a enviar una carta
+            salida2.writeInt(3);
+            //envia el id de la carta
+            salida2.writeUTF(entrada.getID());
+            //envia el valor de la carta
+            salida2.write(entrada.getValor());
+
+        } catch (IOException ex) {
+            Logger.getLogger(threadServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    /**
+     * envia una carta al Jugador 3
+     *
+     * @param entrada:Carta
+     */
+    public void EnviarCartaJugador3(Carta entrada) {
+        try {
+            //le avisa al cliente 1 que le va a enviar una carta
+            salida3.writeInt(3);
+            //envia el id de la carta
+            salida3.writeUTF(entrada.getID());
+            //envia el valor de la carta
+            salida3.write(entrada.getValor());
+
+        } catch (IOException ex) {
+            Logger.getLogger(threadServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    /**
+     * Metodo encargado de enviar una carta a un jugador especifico
+     * @param Jugador:int
+     */
+    public void EnviarCarta(int Jugador){
+        Carta temp;
+        //consigo la carta a enviar
+        temp = miBaraja.popCarta();
+        switch(Jugador){
+            case 1://envia una carta al jugador 1
+                EnviarCartaJugador1(temp);
+                break;
+                
+            case 2://envia una carta al jugador 2
+                EnviarCartaJugador2(temp);
+                break;
+                
+            case 3://envia una carta al jugador 3
+                EnviarCartaJugador3(temp);
+                break;
+        }
+    }
 }
