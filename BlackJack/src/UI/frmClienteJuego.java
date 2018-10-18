@@ -25,7 +25,11 @@ public class frmClienteJuego extends javax.swing.JFrame {
     private int cantCartas = 0;
     private int total = 0;
     private boolean turno = false;
-    private boolean perder = false;
+    /*0 puede pedir cartas
+    1 gano juego con un black Jack
+    2 gano Juego con un 21
+    3 perdio juego*/
+    private int estado = 0;
 
     /**
      * Creates new form frmJuego
@@ -63,10 +67,13 @@ public class frmClienteJuego extends javax.swing.JFrame {
         lblTotal = new javax.swing.JLabel();
         btnAgregarCarta = new javax.swing.JButton();
         lblTurno = new javax.swing.JLabel();
+        btnPasar = new javax.swing.JButton();
+        lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 0));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
 
@@ -140,6 +147,8 @@ public class frmClienteJuego extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 368, -1, -1));
+
         jPanel3.setBackground(new java.awt.Color(51, 51, 51));
 
         jLabel1.setForeground(new java.awt.Color(204, 204, 204));
@@ -166,6 +175,13 @@ public class frmClienteJuego extends javax.swing.JFrame {
         lblTurno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTurno.setText("NO esta en su Turno");
 
+        btnPasar.setText("Pasar Turno");
+        btnPasar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPasarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -177,14 +193,16 @@ public class frmClienteJuego extends javax.swing.JFrame {
                     .addComponent(lblCantCartas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(btnAgregarCarta)))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 42, Short.MAX_VALUE))
                     .addComponent(lblTurno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnAgregarCarta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPasar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(57, 57, 57))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,29 +215,17 @@ public class frmClienteJuego extends javax.swing.JFrame {
                 .addComponent(lblCantCartas)
                 .addGap(18, 18, 18)
                 .addComponent(lblTotal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
                 .addComponent(lblTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnAgregarCarta)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(btnPasar)
+                .addGap(10, 10, 10))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(646, 0, -1, -1));
+        jPanel1.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 850, 500));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -237,11 +243,27 @@ public class frmClienteJuego extends javax.swing.JFrame {
 
     private void btnAgregarCartaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCartaActionPerformed
         if (turno) {
-            btnAgregarCarta.setEnabled(false);
+            //btnAgregarCarta.setEnabled(false);
             turno();
             main.miControlador.getMiCliente().PedirCarta();
         }
     }//GEN-LAST:event_btnAgregarCartaActionPerformed
+
+    private void btnPasarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasarActionPerformed
+        if (turno) {
+            turno();
+            main.miControlador.getMiCliente().PasarTurno();
+        }
+    }//GEN-LAST:event_btnPasarActionPerformed
+
+    public int getEstado() {
+        ValidarPartida();
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
 
     /**
      * @param args the command line arguments
@@ -289,6 +311,14 @@ public class frmClienteJuego extends javax.swing.JFrame {
     public void CargarVentana(String Usuario) {
         lblUsuario.setText("Usuario: " + Usuario);
         btnAgregarCarta.setEnabled(false);
+        btnPasar.setEnabled(false);
+        
+        this.setTitle("Black Jack");
+        ImageIcon imagen = new ImageIcon("src/Multimedia/Black Jack.png");
+        Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(lblFondo.getWidth(),
+                lblFondo.getHeight(), Image.SCALE_DEFAULT));
+        lblFondo.setIcon(icono);
+        
     }
 
     /**
@@ -301,11 +331,12 @@ public class frmClienteJuego extends javax.swing.JFrame {
         int valorCarta = cartaEntrada.getValor();
 
         if (valorCarta == 11) {
-            if (JOptionPane.showConfirmDialog(this, "Desa que el As Valga 1?") == 1) {
+            if (JOptionPane.showConfirmDialog(this, "Desa que el As Valga 1?") == 0) {
                 valorCarta = 1;
             }
         }
         total += valorCarta;
+        JOptionPane.showMessageDialog(null,"Agregado"+total);
 
         Actualizar();
     }
@@ -376,42 +407,51 @@ public class frmClienteJuego extends javax.swing.JFrame {
 
     /**
      * Metodo encargado de validar si el jugador gano o perdio
-     *
-     * @return
      */
-    public int ValidarPartida() {
+    public void ValidarPartida() {
         if (total > 21) {//perder partida
-            perder = true;
-            return 0;
-        }
-        if (total == 21) {
-            if (cantCartas == 2) {//Valida si el gugador gano con black jack
-                return 1;
-            } else {//el jugador tiene un 21
-                return 2;
+            estado = 3;
+        } else {
+            if (total == 21) {
+               
+                if (cantCartas == 2) {//Valida si el gugador gano con black jack
+                    estado = 1;
+                } else {//el jugador tiene un 21
+                    estado = 2;
+                }
+            } else {
+                //no paso nada
+                estado = 0;
             }
         }
-        //no paso nada
-        return 3;
+
     }
 
+    /**
+     * hace posible de activar los btn cuando es el turno del jugador
+     */
     public void turno() {
         if (!turno) {
-           
+
             turno = true;
             lblTurno.setText("Jugador en turno");
             lblTurno.setForeground(Color.GREEN);
             btnAgregarCarta.setEnabled(true);
+            btnPasar.setEnabled(true);
         } else {
-            turno = true;
+            turno = false;
             lblTurno.setText("NO esta en su Turno");
             lblTurno.setForeground(Color.RED);
-            
+            btnAgregarCarta.setEnabled(false);
+            btnPasar.setEnabled(false);
+
         }
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarCarta;
+    private javax.swing.JButton btnPasar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -428,6 +468,7 @@ public class frmClienteJuego extends javax.swing.JFrame {
     private javax.swing.JLabel lblCarta7;
     private javax.swing.JLabel lblCarta8;
     private javax.swing.JLabel lblCarta9;
+    private javax.swing.JLabel lblFondo;
     private javax.swing.JLabel lblTotal;
     private javax.swing.JLabel lblTurno;
     private javax.swing.JLabel lblUsuario;

@@ -5,20 +5,21 @@
  */
 package UI;
 
-import Logica.main;
+import java.awt.Color;
 import java.awt.Image;
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /**
  *
  * @author SSDesth
  */
-public class frmClienteInicio extends javax.swing.JFrame {
+public class frmClienteFinal extends javax.swing.JFrame {
 
     /**
-     * Creates new form frmInicio
+     * Creates new form frmClienteFinal
      */
-    public frmClienteInicio() {
+    public frmClienteFinal() {
         initComponents();
     }
 
@@ -32,57 +33,33 @@ public class frmClienteInicio extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        btnIngresar = new javax.swing.JButton();
-        jtfUsuario = new javax.swing.JTextField();
+        lblEstado = new javax.swing.JLabel();
         lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 0));
+        jPanel1.setBackground(new java.awt.Color(0, 51, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 2, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Usuario:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 70, -1));
-
-        btnIngresar.setText("Ingresar");
-        btnIngresar.setBorderPainted(false);
-        btnIngresar.setOpaque(false);
-        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIngresarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 100, -1));
-        jPanel1.add(jtfUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, 210, -1));
-        jPanel1.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 200));
+        lblEstado.setFont(new java.awt.Font("Times New Roman", 3, 36)); // NOI18N
+        lblEstado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblEstado.setText("Estado");
+        jPanel1.add(lblEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 650, 120));
+        jPanel1.add(lblFondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 350));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-      if(! jtfUsuario.getText().equals("")){
-          main.miControlador.ConectarServer(jtfUsuario.getText());
-      }else{
-          JOptionPane.showMessageDialog(this,"No ingreso Ningun Usuario\n"
-                  + "Para  poder conectarse a un\n"
-                  + "Servidor.\n\n"
-                  + "Intente de Nuevo", "Alerta",0);
-      }
-    }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -101,40 +78,51 @@ public class frmClienteInicio extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmClienteInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmClienteFinal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmClienteInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmClienteFinal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmClienteInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmClienteFinal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmClienteInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmClienteFinal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmClienteInicio().setVisible(true);
+                new frmClienteFinal().setVisible(true);
             }
         });
     }
     
-    public void CargarVentana(){
+    public void CargarVentana(int estado) {
         
         this.setTitle("Black Jack");
-        ImageIcon imagen = new ImageIcon("src/Multimedia/FondoInicio.jpg");
+        ImageIcon imagen = new ImageIcon("src/Multimedia/Black Jack.png");
         Icon icono = new ImageIcon(imagen.getImage().getScaledInstance(lblFondo.getWidth(),
                 lblFondo.getHeight(), Image.SCALE_DEFAULT));
         lblFondo.setIcon(icono);
-    
+        
+        switch(estado){
+            case 0:
+                lblEstado.setForeground(Color.red);
+                lblEstado.setText("Derrota");
+                break;
+            case 1:
+                lblEstado.setForeground(Color.GREEN);
+                lblEstado.setText("Victoria");
+                break;
+            case 2:
+                lblEstado.setForeground(Color.YELLOW);
+                lblEstado.setText("Empate");
+                break;
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnIngresar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jtfUsuario;
+    private javax.swing.JLabel lblEstado;
     private javax.swing.JLabel lblFondo;
     // End of variables declaration//GEN-END:variables
 }

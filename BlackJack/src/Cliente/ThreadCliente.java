@@ -5,6 +5,7 @@
  */
 package Cliente;
 
+import Logica.main;
 import datos.Carta;
 import java.io.*;
 import java.util.logging.Level;
@@ -96,6 +97,7 @@ public class ThreadCliente extends Thread {
                          
                          cliente.getMicontrolador().CargarFrmJuego();
                          break;
+                    
                     case 3://Agrega una carta al jugador
                         Carta nuevaCarta = new  Carta();
                         nuevaCarta.setID(entrada.readUTF());
@@ -103,8 +105,24 @@ public class ThreadCliente extends Thread {
                         System.out.println(nuevaCarta.toString());
                         cliente.getMicontrolador().AgregarCarta(nuevaCarta);
                         break;
+                    
                     case 4://Turno
                         cliente.getMicontrolador().AsignarTurno();
+                        break;
+                    /*case 5://pedir estado
+                            cliente.EnviarEstadoJugador();
+                        break;*/
+                    
+                    case 6://Valida estado
+                            cliente.ValidareEstado();
+                        break;
+                    
+                    case 7://final del juego
+                        int finalJuego=entrada.readInt();
+                        cliente.getMicontrolador().CargarVentanaFinal(finalJuego);
+                        sleep(5000);
+                        cliente.getMicontrolador().CargarVentanaInicioReset();
+                        break;
                         
                     
                         

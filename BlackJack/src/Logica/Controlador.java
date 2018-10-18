@@ -5,11 +5,9 @@
  */
 package Logica;
 
-import Cliente.Cliente;
-import UI.frmClienteInicio;
-import UI.frmClienteJuego;
-import UI.frmClienteLoading;
-import datos.Carta;
+import Cliente.*;
+import UI.*;
+import datos.*;
 
 /**
  *
@@ -20,6 +18,7 @@ public class Controlador {
     private frmClienteInicio ventanaInicio;
     private frmClienteLoading ventanaLoading;
     private frmClienteJuego ventanaJuego;
+    private frmClienteFinal ventanaFinal;
     private String Usuario;
     private Cliente miCliente;
 
@@ -46,6 +45,15 @@ public class Controlador {
     public void setMiCliente(Cliente miCliente) {
         this.miCliente = miCliente;
     }
+
+    public frmClienteJuego getVentanaJuego() {
+        return ventanaJuego;
+    }
+
+    public void setVentanaJuego(frmClienteJuego ventanaJuego) {
+        this.ventanaJuego = ventanaJuego;
+    }
+    
     
     
 
@@ -118,5 +126,20 @@ public class Controlador {
         ventanaJuego.turno();
     }
     
+    public void CargarVentanaFinal(int estado){
+        ventanaJuego.dispose();
+        ventanaFinal= new frmClienteFinal();
+        ventanaFinal.CargarVentana(estado);
+        ventanaFinal.setVisible(true);
+    }
    
+    /**
+     * Este metodo se encarga de ejecutar la primera ventana del programa
+     */
+    public void CargarVentanaInicioReset() {
+        ventanaFinal.dispose();
+        ventanaInicio = new frmClienteInicio();
+        ventanaInicio.CargarVentana();
+        ventanaInicio.setVisible(true);
+    }
 }
